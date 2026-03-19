@@ -1,17 +1,115 @@
 package com.desafio.tecnico.fadesp.entity;
 
-import jakarta.annotation.Generated;
+import java.math.BigDecimal;
+
+import com.desafio.tecnico.fadesp.entity.Pagamento;
+
+import com.desafio.tecnico.fadesp.enums.EnumMetodoPagamento;
+import com.desafio.tecnico.fadesp.enums.EnumStatusPagamento;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "pagamento")
+@Table(name = "pagamento", schema = "public")
 public class Pagamento {
     @Id
     @GeneratedValue(strategy =  GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "codigo_debito", nullable = false)
+    private Integer codigoDebito;
+
+    @Column(name = "cpf_pagador", nullable = false)
+    private String cpfPagador;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "metodo_pagamento")
+    private EnumMetodoPagamento metodoPagamento;
+
+    @Column(name = "numero_cartao")
+    private String numeroCartao;
+
+    @Column(name = "valor_pagamento",precision = 19, scale = 4)
+    private BigDecimal valorPagamento;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status_pagamento")
+    private EnumStatusPagamento statusPagamento;
+
+    public Pagamento() {
+    }
+
+    public Pagamento(Integer codigoDebito, String cpfPagador, EnumMetodoPagamento metodoPagamento, String numeroCartao , BigDecimal valorPagamento, EnumStatusPagamento statusPagamento) {
+        this.codigoDebito = codigoDebito;
+        this.cpfPagador = cpfPagador;
+        this.metodoPagamento = metodoPagamento;
+        this.numeroCartao = numeroCartao;
+        this.valorPagamento = valorPagamento;
+        this.statusPagamento = statusPagamento;
+
+    }
+
+    public Long getId() {
+        return id;
+    }
+    
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Integer getCodigoDebito() {
+        return codigoDebito;
+    }
+
+    public void setCodigoDebito(Integer codigoDebito) {
+        this.codigoDebito = codigoDebito;
+    }
+
+    public String getCpfPagador() {
+        return cpfPagador;
+    }
+
+    public void setCpfPagador(String cpfPagador) {
+        this.cpfPagador = cpfPagador;
+    }
+
+    public EnumMetodoPagamento getMetodoPagamento() {
+        return metodoPagamento;
+    }
+
+    public void setMetodoPagamento(EnumMetodoPagamento metodoPagamento) {
+        this.metodoPagamento = metodoPagamento;
+    }  
+
+    public String getNumeroCartao() {
+        return numeroCartao;
+    }
+
+    public void setNumeroCartao(String numeroCartao) {
+        this.numeroCartao = numeroCartao;
+    }
+
+    public BigDecimal getValorPagamento() {
+        return valorPagamento;
+    }
+
+    public void setValorPagamento(BigDecimal valorPagamento) {
+        this.valorPagamento = valorPagamento;
+    }
+
+    public EnumStatusPagamento getStatusPagamento() {
+        return statusPagamento;
+    }
+
+    public void setStatusPagamento(EnumStatusPagamento statusPagamento) {
+        this.statusPagamento = statusPagamento;
+    }
 
 }
