@@ -36,23 +36,27 @@ public class Pagamento {
     @Column(name = "numero_cartao")
     private String numeroCartao;
 
-    @Column(name = "valor_pagamento",precision = 19, scale = 4)
+    @Column(name = "valor_pagamento",precision = 19, scale = 4, nullable = false)
     private BigDecimal valorPagamento;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status_pagamento")
     private EnumStatusPagamento statusPagamento;
 
+    @Column(name = "ativo")
+    private Boolean ativo;
+
     public Pagamento() {
     }
 
-    public Pagamento(Integer codigoDebito, String cpfPagador, EnumMetodoPagamento metodoPagamento, String numeroCartao , BigDecimal valorPagamento, EnumStatusPagamento statusPagamento) {
+    public Pagamento(Integer codigoDebito, String cpfPagador, EnumMetodoPagamento metodoPagamento, String numeroCartao , BigDecimal valorPagamento, EnumStatusPagamento statusPagamento, Boolean ativo) {
         this.codigoDebito = codigoDebito;
         this.cpfPagador = cpfPagador;
         this.metodoPagamento = metodoPagamento;
         this.numeroCartao = numeroCartao;
         this.valorPagamento = valorPagamento;
         this.statusPagamento = statusPagamento;
+        this.ativo = ativo;
 
     }
 
@@ -112,4 +116,11 @@ public class Pagamento {
         this.statusPagamento = statusPagamento;
     }
 
+    public Boolean getAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(Boolean ativo) {
+        this.ativo = ativo;
+    }
 }
