@@ -1,5 +1,7 @@
 package com.desafio.tecnico.fadesp.rest.dto.request;
 
+import com.desafio.tecnico.fadesp.enums.EnumStatusPagamento;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,7 +11,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class AtualizarStatusPagamentoDTO {
+public class AtualizarStatusPagamentoRequestDTO {
     private Long idPagamento;
-    private String statusPagamento;
+    private EnumStatusPagamento novoStatusPagamento;
+
 }

@@ -26,8 +26,11 @@ public class Pagamento {
     @Column(name = "codigo_debito", nullable = false)
     private Integer codigoDebito;
 
-    @Column(name = "cpf_pagador", nullable = false)
+    @Column(name = "cpf_pagador")
     private String cpfPagador;
+
+    @Column(name = "cnpj_pagador")
+    private String cnpjPagador;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "metodo_pagamento")
@@ -49,9 +52,10 @@ public class Pagamento {
     public Pagamento() {
     }
 
-    public Pagamento(Integer codigoDebito, String cpfPagador, EnumMetodoPagamento metodoPagamento, String numeroCartao , BigDecimal valorPagamento, EnumStatusPagamento statusPagamento, Boolean ativo) {
+    public Pagamento(Integer codigoDebito, String cpfPagador, String cnpjPagador, EnumMetodoPagamento metodoPagamento, String numeroCartao , BigDecimal valorPagamento, EnumStatusPagamento statusPagamento, Boolean ativo) {
         this.codigoDebito = codigoDebito;
         this.cpfPagador = cpfPagador;
+        this.cnpjPagador = cnpjPagador;
         this.metodoPagamento = metodoPagamento;
         this.numeroCartao = numeroCartao;
         this.valorPagamento = valorPagamento;
@@ -82,6 +86,14 @@ public class Pagamento {
 
     public void setCpfPagador(String cpfPagador) {
         this.cpfPagador = cpfPagador;
+    }
+
+    public String getCnpjPagador() {
+        return cnpjPagador;
+    }
+
+    public void setCnpjPagador(String cnpjPagador) {
+        this.cnpjPagador = cnpjPagador;
     }
 
     public EnumMetodoPagamento getMetodoPagamento() {

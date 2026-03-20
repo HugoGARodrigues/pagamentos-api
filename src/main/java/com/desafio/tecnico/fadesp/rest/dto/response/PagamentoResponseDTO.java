@@ -18,6 +18,7 @@ public class PagamentoResponseDTO {
     private Long id;
     private Integer codigoDebito;
     private String cpfPagador;
+    private String cnpjPagador;
     private EnumMetodoPagamento metodoPagamento;
     private String numeroCartao;
     private EnumStatusPagamento statusPagamento;

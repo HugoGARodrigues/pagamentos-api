@@ -15,6 +15,7 @@ import lombok.Setter;
 public class PagamentoRequestDTO {
     private Integer codigoDebito;
     private String cpfPagador;
+    private String cnpjPagador;
     private EnumMetodoPagamento metodoPagamento;
     private String numeroCartao;
     private BigDecimal valorPagamento;
