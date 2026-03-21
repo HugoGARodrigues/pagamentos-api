@@ -14,9 +14,10 @@ import com.desafio.tecnico.fadesp.rest.dto.request.PagamentoRequestDTO;
 import com.desafio.tecnico.fadesp.rest.dto.response.MessageResponseDTO;
 import com.desafio.tecnico.fadesp.rest.dto.response.PagamentoResponseDTO;
 import com.desafio.tecnico.fadesp.rest.factory.PagamentoRestFactory;
-import com.desafio.tecnico.fadesp.service.PagamentoService;
+import com.desafio.tecnico.fadesp.service.interfaces.IPagamentoService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,7 +31,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 public class PagamentoRest {
     
     @Autowired
-    private PagamentoService pagamentoService;
+    private IPagamentoService pagamentoService;
 
 
     @PostMapping("/receber-pagamento")
@@ -38,11 +39,6 @@ public class PagamentoRest {
         pagamentoService.validarPagamento(pagamentoDTO);
         Pagamento pagamento = PagamentoRestFactory.getEntity(pagamentoDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(PagamentoRestFactory.fromStringToJsonMessagem(pagamentoService.criarPagamento(pagamento)))    ;
-    }
-
-    @GetMapping("/{id}")
-    public PagamentoResponseDTO getPagamentoById(@PathVariable Long id) {
-        return PagamentoRestFactory.getDTO(pagamentoService.getPagamentoById(id));
     }
 
     @PutMapping("/atualizar-pagamento")
@@ -63,8 +59,8 @@ public class PagamentoRest {
         return ResponseEntity.ok(PagamentoRestFactory.fromPageEntityToPageDTO(pagamentoService.listarPagamentos(codigoDebito, cpfPagador, cnpjPagador, statusPagamento, paginaAtual, tamanhoPagina, direcao, ordenacao))); 
    }
 
-   @PutMapping("excluir-pagamento")
-   public ResponseEntity<MessageResponseDTO> putMethodName(@RequestBody Long id) {
+   @DeleteMapping("excluir-pagamento/{id}")
+   public ResponseEntity<MessageResponseDTO> exclusaoLogicaPagamento(@PathVariable Long id) throws Exception {
        return ResponseEntity.ok(PagamentoRestFactory.fromStringToJsonMessagem(pagamentoService.exclusaoLogica(id)));
    }
     

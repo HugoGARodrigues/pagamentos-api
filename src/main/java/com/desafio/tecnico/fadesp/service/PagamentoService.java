@@ -41,7 +41,7 @@ public class PagamentoService implements IPagamentoService {
     @Override
     public void validarPagamento(PagamentoRequestDTO pagamentoDTO) throws Exception {
         if( pagamentoDTO.getValorPagamento().compareTo(java.math.BigDecimal.ZERO) <= 0){
-            throw new IllegalArgumentException("Valor do pagamento deve ser maior que zero.");
+            throw new Exception("Valor do pagamento deve ser maior que zero.");
         }
 
         if(pagamentoDTO.getMetodoPagamento() != null){
@@ -55,20 +55,20 @@ public class PagamentoService implements IPagamentoService {
                 }
             }
         }else{
-            throw new IllegalArgumentException("Método de pagamento é obrigatório.");
+            throw new Exception("Método de pagamento é obrigatório.");
 
         }
 
         if(pagamentoRepository.existsByCodigoDebito(pagamentoDTO.getCodigoDebito())){
-            throw new IllegalArgumentException("Este pagamento já existe em nosso sistema.");
+            throw new Exception("Este pagamento já existe em nosso sistema.");
         }
 
         
     }
     
     @Override
-    public Pagamento getPagamentoById(Long id){
-        return pagamentoRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Pagamento não encontrado."));
+    public Pagamento getPagamentoById(Long id) throws Exception{
+        return pagamentoRepository.findById(id).orElseThrow(() -> new Exception("Pagamento não encontrado."));
     }
 
     @Override
@@ -82,21 +82,21 @@ public class PagamentoService implements IPagamentoService {
             throw new Exception("ID do pagamento é obrigatório para atualização de status.");
         }
         if(!pagamentoRepository.existsById(dto.getIdPagamento())){
-            throw new IllegalArgumentException("Pagamento não encontrado para o ID fornecido.");
+            throw new Exception("Pagamento não encontrado para o ID fornecido.");
         }   
         
         Pagamento pagamentoASerAtualizado = getPagamentoById(dto.getIdPagamento());
 
         if(pagamentoASerAtualizado.getStatusPagamento() == dto.getNovoStatusPagamento()){
-            throw new IllegalArgumentException("O status do pagamento já está atualizado.");
+            throw new Exception("O status do pagamento já está atualizado.");
         }
 
         if(pagamentoASerAtualizado.getStatusPagamento() == EnumStatusPagamento.PROCESSADO_COM_SUCESSO){
-            throw new IllegalArgumentException("Não é permitido atualizar o status de um pagamento que já foi processado com sucesso.");
+            throw new Exception("Não é permitido atualizar o status de um pagamento que já foi processado com sucesso.");
         }
 
         if(pagamentoASerAtualizado.getStatusPagamento() == EnumStatusPagamento.PROCESSADO_COM_FALHA && dto.getNovoStatusPagamento() == EnumStatusPagamento.PROCESSADO_COM_SUCESSO){
-            throw new IllegalArgumentException("Não é permitido atualizar o status de um pagamento que já foi processado com falha para processado com sucesso.");
+            throw new Exception("Não é permitido atualizar o status de um pagamento que já foi processado com falha para processado com sucesso.");
         }   
         
         pagamentoASerAtualizado.setStatusPagamento(dto.getNovoStatusPagamento());
@@ -115,17 +115,17 @@ public class PagamentoService implements IPagamentoService {
     }
 
     @Override
-    public String exclusaoLogica(Long Id) {
-        if(!pagamentoRepository.existsById(Id)){
-            throw new IllegalArgumentException("Pagamento não encontrado para o ID fornecido.");
+    public String exclusaoLogica(Long id) throws Exception {
+        if(!pagamentoRepository.existsById(id)){
+            throw new Exception("Pagamento não encontrado para o ID fornecido.");
         }
-        Pagamento pagamento = getPagamentoById(Id);
+        Pagamento pagamento = getPagamentoById(id);
         if(pagamento.getStatusPagamento() == EnumStatusPagamento.PENDENTE_DE_PROCESSAMENTO){
             pagamento.setAtivo(false);
             pagamentoRepository.save(pagamento);
-            return "Pagamento " + Id + " excluído com sucesso.";
+            return "Pagamento " + id + " excluído com sucesso.";
         }else{
-            throw new IllegalArgumentException("Não é permitido excluir um pagamento que já foi processado.");
+            throw new Exception("Não é permitido excluir um pagamento que já foi processado.");
         }
         
     }

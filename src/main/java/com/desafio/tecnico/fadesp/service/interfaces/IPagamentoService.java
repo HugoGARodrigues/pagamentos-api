@@ -11,11 +11,11 @@ public interface IPagamentoService {
         
         public void validarPagamento(com.desafio.tecnico.fadesp.rest.dto.request.PagamentoRequestDTO pagamentoDTO) throws Exception;
 
-        public Pagamento getPagamentoById(Long id);
+        public Pagamento getPagamentoById(Long id) throws Exception;
 
         public String atualizarStatusPagamento(AtualizarStatusPagamentoRequestDTO requestDTO) throws Exception;     
 
         public Page<Pagamento> listarPagamentos(Integer codigoDebito, String cpfPagador, String cnpjPagador, EnumStatusPagamento statusPagamento, Integer paginaAtual, Integer tamanhoPagina, String direcao, String ordenacao);
 
-        public String exclusaoLogica(Long Id);
+        public String exclusaoLogica(Long id) throws Exception;
     }
