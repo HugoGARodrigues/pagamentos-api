@@ -8,6 +8,8 @@ import com.desafio.tecnico.fadesp.rest.dto.request.AtualizarStatusPagamentoReque
 import com.desafio.tecnico.fadesp.rest.dto.request.PagamentoRequestDTO;
 import com.desafio.tecnico.fadesp.service.interfaces.IPagamentoService;
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
@@ -67,10 +69,11 @@ public class PagamentoService implements IPagamentoService {
     }
     
     @Override
-    public Pagamento getPagamentoById(Long id) throws Exception{
+    public Pagamento getPagamentoById(UUID id) throws Exception{
         return pagamentoRepository.findById(id).orElseThrow(() -> new Exception("Pagamento não encontrado."));
     }
 
+    @Transactional
     @Override
     public String atualizarStatusPagamento(AtualizarStatusPagamentoRequestDTO dto) throws Exception{
         
@@ -114,8 +117,9 @@ public class PagamentoService implements IPagamentoService {
         return pagamentoPaginado;
     }
 
+    @Transactional
     @Override
-    public String exclusaoLogica(Long id) throws Exception {
+    public String exclusaoLogica(UUID id) throws Exception {
         if(!pagamentoRepository.existsById(id)){
             throw new Exception("Pagamento não encontrado para o ID fornecido.");
         }

@@ -1,5 +1,7 @@
 package com.desafio.tecnico.fadesp.rest.dto.request;
 
+import java.util.UUID;
+
 import com.desafio.tecnico.fadesp.enums.EnumStatusPagamento;
 
 import lombok.AllArgsConstructor;
@@ -12,7 +14,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AtualizarStatusPagamentoRequestDTO {
-    private Long idPagamento;
+    private UUID idPagamento;
     private EnumStatusPagamento novoStatusPagamento;
 
 }

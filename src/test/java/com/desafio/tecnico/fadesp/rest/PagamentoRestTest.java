@@ -16,6 +16,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Collections;
+import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -67,7 +68,7 @@ class PagamentoRestTest {
     @DisplayName("PUT - Deve atualizar status")
     void deveAtualizarStatus() throws Exception {
         AtualizarStatusPagamentoRequestDTO dto = new AtualizarStatusPagamentoRequestDTO();
-        dto.setIdPagamento(1L);
+        dto.setIdPagamento(UUID.fromString("550e8400-e29b-41d4-a716-446655440000"));
         dto.setNovoStatusPagamento(EnumStatusPagamento.PROCESSADO_COM_SUCESSO);
 
         when(pagamentoService.atualizarStatusPagamento(any())).thenReturn("Atualizado");
@@ -81,7 +82,7 @@ class PagamentoRestTest {
     @Test
     @DisplayName("DELETE - Deve realizar exclusão lógica via ID na URL")
     void deveExcluirPagamento() throws Exception {
-        Long id = 1L;
+        UUID id = UUID.fromString("550e8400-e29b-41d4-a716-446655440000");
         when(pagamentoService.exclusaoLogica(id)).thenReturn("Excluído");
 
         mockMvc.perform(delete("/pagamentos/excluir-pagamento/{id}", id))

@@ -1,6 +1,7 @@
 package com.desafio.tecnico.fadesp.rest.dto.response;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 import com.desafio.tecnico.fadesp.enums.EnumMetodoPagamento;
 import com.desafio.tecnico.fadesp.enums.EnumStatusPagamento;
@@ -15,7 +16,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PagamentoResponseDTO {
-    private Long id;
+    private UUID id;
     private Integer codigoDebito;
     private String cpfPagador;
     private String cnpjPagador;

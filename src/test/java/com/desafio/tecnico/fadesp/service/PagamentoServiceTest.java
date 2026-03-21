@@ -17,6 +17,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -24,7 +25,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-@SpringBootTest
 class PagamentoServiceTest {
 
     @Mock
@@ -38,7 +38,7 @@ class PagamentoServiceTest {
     @BeforeEach
     void setUp() {
         pagamentoExemplo = new Pagamento();
-        pagamentoExemplo.setId(1L);
+        pagamentoExemplo.setId(UUID.fromString("550e8400-e29b-41d4-a716-446655440000"));
         pagamentoExemplo.setCodigoDebito(123);
         pagamentoExemplo.setStatusPagamento(EnumStatusPagamento.PENDENTE_DE_PROCESSAMENTO);
         pagamentoExemplo.setAtivo(true);
@@ -83,11 +83,11 @@ class PagamentoServiceTest {
     @DisplayName("Deve atualizar status com sucesso")
     void deveAtualizarStatusComSucesso() throws Exception {
         AtualizarStatusPagamentoRequestDTO dto = new AtualizarStatusPagamentoRequestDTO();
-        dto.setIdPagamento(1L);
+        dto.setIdPagamento(UUID.fromString("550e8400-e29b-41d4-a716-446655440000"));
         dto.setNovoStatusPagamento(EnumStatusPagamento.PROCESSADO_COM_SUCESSO);
 
-        when(pagamentoRepository.existsById(1L)).thenReturn(true);
-        when(pagamentoRepository.findById(1L)).thenReturn(Optional.of(pagamentoExemplo));
+        when(pagamentoRepository.existsById(UUID.fromString("550e8400-e29b-41d4-a716-446655440000"))).thenReturn(true);
+        when(pagamentoRepository.findById(UUID.fromString("550e8400-e29b-41d4-a716-446655440000"))).thenReturn(Optional.of(pagamentoExemplo));
 
         String resultado = pagamentoService.atualizarStatusPagamento(dto);
 
@@ -102,11 +102,11 @@ class PagamentoServiceTest {
         pagamentoExemplo.setStatusPagamento(EnumStatusPagamento.PROCESSADO_COM_SUCESSO);
 
         AtualizarStatusPagamentoRequestDTO dto = new AtualizarStatusPagamentoRequestDTO();
-        dto.setIdPagamento(1L);
+        dto.setIdPagamento(UUID.fromString("550e8400-e29b-41d4-a716-446655440000"));
         dto.setNovoStatusPagamento(EnumStatusPagamento.PROCESSADO_COM_FALHA);
 
-        when(pagamentoRepository.existsById(1L)).thenReturn(true);
-        when(pagamentoRepository.findById(1L)).thenReturn(Optional.of(pagamentoExemplo));
+        when(pagamentoRepository.existsById(UUID.fromString("550e8400-e29b-41d4-a716-446655440000"))).thenReturn(true);
+        when(pagamentoRepository.findById(UUID.fromString("550e8400-e29b-41d4-a716-446655440000"))).thenReturn(Optional.of(pagamentoExemplo));
 
         assertThatThrownBy(() -> pagamentoService.atualizarStatusPagamento(dto))
                 .isInstanceOf(Exception.class)
@@ -116,10 +116,10 @@ class PagamentoServiceTest {
     @Test
     @DisplayName("Deve realizar exclusão lógica de pagamento pendente")
     void deveExcluirLogicamente() throws Exception {
-        when(pagamentoRepository.existsById(1L)).thenReturn(true);
-        when(pagamentoRepository.findById(1L)).thenReturn(Optional.of(pagamentoExemplo));
+        when(pagamentoRepository.existsById(UUID.fromString("550e8400-e29b-41d4-a716-446655440000"))).thenReturn(true);
+        when(pagamentoRepository.findById(UUID.fromString("550e8400-e29b-41d4-a716-446655440000"))).thenReturn(Optional.of(pagamentoExemplo));
 
-        String resultado = pagamentoService.exclusaoLogica(1L);
+        String resultado = pagamentoService.exclusaoLogica(UUID.fromString("550e8400-e29b-41d4-a716-446655440000"));
 
         assertThat(pagamentoExemplo.getAtivo()).isFalse();
         assertThat(resultado).contains("excluído com sucesso");
@@ -131,10 +131,10 @@ class PagamentoServiceTest {
     void naoDeveExcluirPagamentoProcessado() {
         pagamentoExemplo.setStatusPagamento(EnumStatusPagamento.PROCESSADO_COM_SUCESSO);
 
-        when(pagamentoRepository.existsById(1L)).thenReturn(true);
-        when(pagamentoRepository.findById(1L)).thenReturn(Optional.of(pagamentoExemplo));
+        when(pagamentoRepository.existsById(UUID.fromString("550e8400-e29b-41d4-a716-446655440000"))).thenReturn(true);
+        when(pagamentoRepository.findById(UUID.fromString("550e8400-e29b-41d4-a716-446655440000"))).thenReturn(Optional.of(pagamentoExemplo));
 
-        assertThatThrownBy(() -> pagamentoService.exclusaoLogica(1L))
+        assertThatThrownBy(() -> pagamentoService.exclusaoLogica(UUID.fromString("550e8400-e29b-41d4-a716-446655440000")))
                 .isInstanceOf(Exception.class)
                 .hasMessage("Não é permitido excluir um pagamento que já foi processado.");
     }

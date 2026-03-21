@@ -1,6 +1,7 @@
 package com.desafio.tecnico.fadesp.entity;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 import com.desafio.tecnico.fadesp.entity.Pagamento;
 
@@ -20,8 +21,8 @@ import jakarta.persistence.Table;
 @Table(name = "pagamento", schema = "public")
 public class Pagamento {
     @Id
-    @GeneratedValue(strategy =  GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy =  GenerationType.UUID)
+    private UUID id;
 
     @Column(name = "codigo_debito", nullable = false)
     private Integer codigoDebito;
@@ -64,11 +65,11 @@ public class Pagamento {
 
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
     
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
