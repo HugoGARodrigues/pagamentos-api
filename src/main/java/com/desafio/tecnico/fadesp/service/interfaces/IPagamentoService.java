@@ -9,9 +9,9 @@ import com.desafio.tecnico.fadesp.enums.EnumStatusPagamento;
 import com.desafio.tecnico.fadesp.rest.dto.request.AtualizarStatusPagamentoRequestDTO;
 
 public interface IPagamentoService {
-        public String criarPagamento(com.desafio.tecnico.fadesp.entity.Pagamento pagamento);
+        public String criarPagamento(Pagamento pagamento) throws Exception;
         
-        public void validarPagamento(com.desafio.tecnico.fadesp.rest.dto.request.PagamentoRequestDTO pagamentoDTO) throws Exception;
+        public void validarPagamento(Pagamento pagamento) throws Exception;
 
         public Pagamento getPagamentoById(UUID id) throws Exception;
 

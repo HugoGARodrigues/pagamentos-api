@@ -36,15 +36,13 @@ public class PagamentoRest {
     @Autowired
     private IPagamentoService pagamentoService;
 
-    @Autowired
-    private ValidacaoUtil validador;
 
     @Operation(summary = "Recebe um pagamento e o salva no banco de dados do sistema", description = "Endpoint para recebimento de dados de pagamento")
     @PostMapping("/receber-pagamento")
     public ResponseEntity<MessageResponseDTO> criarPagamento(@RequestBody PagamentoRequestDTO pagamentoDTO)
             throws Exception {
-        validador.validarPagamento(pagamentoDTO);
         Pagamento pagamento = PagamentoRestFactory.getEntity(pagamentoDTO);
+         pagamentoService.validarPagamento(pagamento);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(PagamentoRestFactory.fromStringToJsonMessagem(pagamentoService.criarPagamento(pagamento)));
     }

@@ -3,7 +3,7 @@ package com.desafio.tecnico.fadesp.service.strategy.processamento;
 import com.desafio.tecnico.fadesp.enums.EnumStatusPagamento;
 import com.desafio.tecnico.fadesp.service.interfaces.IProcessamentoStrategy;
 
-public class ProcessadoComFalha implements IProcessamentoStrategy {
+public class ProcessadoComFalhaStrategy implements IProcessamentoStrategy {
 
     @Override
     public void verificaAlteracaoStatus(EnumStatusPagamento statusNovo) throws Exception{
