@@ -17,6 +17,7 @@ import com.desafio.tecnico.fadesp.rest.dto.response.MessageResponseDTO;
 import com.desafio.tecnico.fadesp.rest.dto.response.PagamentoResponseDTO;
 import com.desafio.tecnico.fadesp.rest.factory.PagamentoRestFactory;
 import com.desafio.tecnico.fadesp.service.interfaces.IPagamentoService;
+import com.desafio.tecnico.fadesp.util.ValidarPagamentoUtil;
 
 import io.swagger.v3.oas.annotations.Operation;
 
@@ -35,11 +36,14 @@ public class PagamentoRest {
     @Autowired
     private IPagamentoService pagamentoService;
 
+    @Autowired
+    private ValidarPagamentoUtil validador;
+
     @Operation(summary = "Recebe um pagamento e o salva no banco de dados do sistema", description = "Endpoint para recebimento de dados de pagamento")
     @PostMapping("/receber-pagamento")
     public ResponseEntity<MessageResponseDTO> criarPagamento(@RequestBody PagamentoRequestDTO pagamentoDTO)
             throws Exception {
-        pagamentoService.validarPagamento(pagamentoDTO);
+        validador.validarPagamento(pagamentoDTO);
         Pagamento pagamento = PagamentoRestFactory.getEntity(pagamentoDTO);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(PagamentoRestFactory.fromStringToJsonMessagem(pagamentoService.criarPagamento(pagamento)));
