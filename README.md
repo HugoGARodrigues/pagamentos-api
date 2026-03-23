@@ -4,7 +4,7 @@
 
 ## Tecnologias Utilizadas:
 
-- Java
+- Java 17
 - Spring Boot
 - Spring Data
 - Lombok
