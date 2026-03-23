@@ -17,7 +17,7 @@ import com.desafio.tecnico.fadesp.rest.dto.response.MessageResponseDTO;
 import com.desafio.tecnico.fadesp.rest.dto.response.PagamentoResponseDTO;
 import com.desafio.tecnico.fadesp.rest.factory.PagamentoRestFactory;
 import com.desafio.tecnico.fadesp.service.interfaces.IPagamentoService;
-import com.desafio.tecnico.fadesp.util.ValidarPagamentoUtil;
+import com.desafio.tecnico.fadesp.util.ValidacaoUtil;
 
 import io.swagger.v3.oas.annotations.Operation;
 
@@ -37,7 +37,7 @@ public class PagamentoRest {
     private IPagamentoService pagamentoService;
 
     @Autowired
-    private ValidarPagamentoUtil validador;
+    private ValidacaoUtil validador;
 
     @Operation(summary = "Recebe um pagamento e o salva no banco de dados do sistema", description = "Endpoint para recebimento de dados de pagamento")
     @PostMapping("/receber-pagamento")

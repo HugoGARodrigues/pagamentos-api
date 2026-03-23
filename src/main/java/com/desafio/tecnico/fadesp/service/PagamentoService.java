@@ -7,7 +7,14 @@ import com.desafio.tecnico.fadesp.repository.PagamentoRepository;
 import com.desafio.tecnico.fadesp.rest.dto.request.AtualizarStatusPagamentoRequestDTO;
 import com.desafio.tecnico.fadesp.rest.dto.request.PagamentoRequestDTO;
 import com.desafio.tecnico.fadesp.service.interfaces.IPagamentoService;
+import com.desafio.tecnico.fadesp.service.interfaces.IPagamentoStrategy;
+import com.desafio.tecnico.fadesp.service.interfaces.IProcessamentoStrategy;
+import com.desafio.tecnico.fadesp.service.strategy.pagamento.PagamentoCartaoStrategy;
+import com.desafio.tecnico.fadesp.service.strategy.pagamento.PagamentoPixBoleto;
+import com.desafio.tecnico.fadesp.service.strategy.processamento.PendenteDeProcessamentoStrategy;
+import com.desafio.tecnico.fadesp.service.strategy.processamento.ProcessadoComFalha;
 
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +33,14 @@ public class PagamentoService implements IPagamentoService {
 
     @Autowired
     private PagamentoRepository pagamentoRepository;
+
+    private final Map<EnumStatusPagamento, IProcessamentoStrategy> mapProcessamentoStrategy = Map.of(
+        EnumStatusPagamento.PENDENTE_DE_PROCESSAMENTO, new PendenteDeProcessamentoStrategy(),
+        EnumStatusPagamento.PROCESSADO_COM_FALHA, new ProcessadoComFalha(),
+        EnumStatusPagamento.PROCESSADO_COM_SUCESSO, new ProcessadoComFalha()
+
+    );
+
 
     @Transactional
     @Override
@@ -90,17 +105,7 @@ public class PagamentoService implements IPagamentoService {
         
         Pagamento pagamentoASerAtualizado = getPagamentoById(dto.getIdPagamento());
 
-        if(pagamentoASerAtualizado.getStatusPagamento() == dto.getNovoStatusPagamento()){
-            throw new Exception("O status do pagamento já está atualizado.");
-        }
-
-        if(pagamentoASerAtualizado.getStatusPagamento() == EnumStatusPagamento.PROCESSADO_COM_SUCESSO){
-            throw new Exception("Não é permitido atualizar o status de um pagamento que já foi processado com sucesso.");
-        }
-
-        if(pagamentoASerAtualizado.getStatusPagamento() == EnumStatusPagamento.PROCESSADO_COM_FALHA && dto.getNovoStatusPagamento() == EnumStatusPagamento.PROCESSADO_COM_SUCESSO){
-            throw new Exception("Não é permitido atualizar o status de um pagamento que já foi processado com falha para processado com sucesso.");
-        }   
+        mapProcessamentoStrategy.get(pagamentoASerAtualizado.getStatusPagamento()).verificaAlteracaoStatus(dto.getNovoStatusPagamento());
         
         pagamentoASerAtualizado.setStatusPagamento(dto.getNovoStatusPagamento());
         pagamentoRepository.save(pagamentoASerAtualizado);
